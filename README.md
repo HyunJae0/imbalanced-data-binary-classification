@@ -207,7 +207,8 @@ print(classification_report(y_test, y_pred))
 두 모델 모두 하이퍼파라미터 설정 방법만 다를 뿐, 일련의 튜닝을 적용한 모델들입니다. 그리드 서치를 사용하거나 사전 학습된 모델을 사용하는 방법으로, 두 모델 모두 약간의 성능 개선은 기대할 수 있지만, 임곗값을 0.5로 사용할 경우 클래스 1의 recall 값은 크게 달라지지 않을 것입니다.
 이 문제는 공공임대주택 입주의향이기 때문에 실제로 입주의향이 있는 사람을 올바르게 예측하는 것이 더 중요합니다.
 
-## 3. ROC Curve를 이용한 최적의 임곗값(optimal threshold) 찾기
+## 3. 최적의 임곗값(optimal threshold) 찾기
+### 3.1 ROC Curve를 이용한 최적의 임곗값(optimal threshold) 찾기
 Python에서 sklearn.metrics의 roc_curve를 이용하면, ROC 곡선을 계산해서 FPR, TPR 그리고 임곗값(모델 예측 확률의 임곗값)을 반환할 수 있습니다. 이때 drop_intermediate 파라미터를 False로 지정하여 모든 가능한 임곗값을 구합니다.
 ```
 fpr, tpr, thresholds = roc_curve(y_train,lgbm_model.predict_proba(X_train)[:,1],drop_intermediate=False)
@@ -222,10 +223,64 @@ roc.iloc[(roc.tf-0).abs().argsort()[:1]]
 ![image](https://github.com/user-attachments/assets/083c7fb9-9bc3-4445-930d-66f2c89635ea)
 
 파란색 곡선은 TPR, 빨간색 곡선은 TNR입니다. 두 곡선이 교차하는 지점이 바로 TPR과 TNR이 같아지는 임곗값 0.325006을 의미합니다.
-
+<img src="./img/t0.png" width="50%">
 ```
 plt.scatter(thresholds, np.abs(fpr+tpr-1))
 plt.xlabel("Threshold")
 plt.ylabel("|FPR + TPR - 1|")
 plt.show()
 ```
+<img src="./img/t1.png" width="50%">
+
+
+### 3.2 Balanced Accuracy를 이용한 찾기
+다른 접근 방법으로 Balanced Accuracy를 사용해 불균형 데이터 셋에 대한 정확도를 극대화하는 임곗값을 찾습니다.
+
+Balanced Accuracy는 클래스 불균형이 있을 때, 양쪽 클래스를 고루 잘 맞추는지 평가하기 위한 지표로 TPR과 TNR의 평균. 즉, 각 클래스별 정답 비율의 평균으로 계산됩니다. Balanced Accuracy = TPR + TNR / 2
+
+TPR = TP / TP + FN이고 TNR = TN / TN + FP이므로 Balanced Accuracy는 정확한 예측(진양성, 진음성)의 총 수를 예측의 총 수로 나눈 값입니다.
+
+Balanced Accuracy를 이용해서 최적의 임곗값을 찾기 위해 모든 점수(예측 확률값)를 순회하면서 Balanced Accuracy를 평가 지표로 사용해 예측을 수행합니다. 더 정확하게는 train set에 대해 가능한 모든 점수를 임곗값으로 가정해 보면서, 어떤 임곗값에서 가장 높은 Balanced Accuracy를 얻을 수 있는지를 탐색합니다. 가장 높은 Balanced Accuracy를 기록할 때의 임곗값이 '균형 정확도가 가장 높은 임곗값'입니다.
+```
+from sklearn.metrics import balanced_accuracy_score
+lgbm_model.fit(X_train,y_train)
+threshold = []
+accuracy = []
+for p in np.unique(lgbm_model.predict_proba(X_train)[:,1]):
+    threshold.append(p)
+    y_pred = (lgbm_model.predict_proba(X_train)[:,1] >= p).astype(int)
+    accuracy.append(balanced_accuracy_score(y_train,y_pred))
+```
+
+```
+plt.scatter(threshold,accuracy)
+plt.xlabel("Threshold")
+plt.ylabel("Balanced accuracy")
+plt.show()
+```
+<img src="./img/t2.png" width="50%">
+
+```
+threshold[np.argmax(accuracy)]
+```
+이때의 임곗값은 0.316581141508869입니다. 이제 이 임곗값을 사용해서 예측을 수행합니다.
+```
+lgbm_model.fit(X_train, y_train)
+threshold = 0.316581141508869 # 임곗값 0.316581141508869 적용
+y_pred = (y_pred_prob >= threshold).astype(int)
+
+print('\nClassification Report:')
+print(classification_report(y_test, y_pred))
+```
+![image](https://github.com/user-attachments/assets/4e341d6e-46d2-4405-80e4-1a5bf5b7778f)
+혼동 행렬을 확인하면 기본 임곗값 0.5를 적용했을 때에 비해 클래스 1에 대한 recall 값이 0.16 증가한 것을 확인할 수 있습니다. 하지만, 클래스 1과 클래스 0을 분류하는 균형 지점을 찾았기 때문에 클래스 0에 대한 recall 값이 0.1 감소했습니다. 그러나 실제로 입주의향이 있는 사람을 올바르게 예측하는 것이 더 중요하게 가정하였기 때문에 다소 성공적인 결과입니다.
+
+## 4. 결과
+첫 번째와 두 번째 혼동 행렬은 딥러닝 모델과 LGBM 모델로 임곗값 0.5를 사용했을 때의 결과입니다.
+<img src="./img/confusion_matrix0.png" width="50%">
+<img src="./img/confusion_matrix1.png" width="50%">
+
+다음 혼동 행렬은 Balanced Accuracy를 이용해서 임곗값 0.316581141508869을 사용했을 때의 결과입니다.
+<img src="./img/confusion_matrix2.png" width="50%">
+
+두 번째 혼동 행렬과 세 번째 혼동 행렬을 비교해 보면, 실제로 입주의향이 없는 사람을 모델이 입주의향이 있는 사람이라고 잘못 예측한 수가 증가하긴 했지만, 실제로 입주의향이 있는 사람을 입주의향이 없는 사람이라고 잘못 예측한 수가 줄어들고, 실제 입주의향이 있는 사람을 입주의향이 있는 사람이라고 올바르게 예측한 수가 증가한 것을 확인할 수 있습니다.
