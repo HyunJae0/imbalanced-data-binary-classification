@@ -126,6 +126,25 @@ tuned_model
 ```
 ![image](https://github.com/user-attachments/assets/c4c3e32e-ee01-4bb5-ac4c-997bbde302fb)
 
+tuned_model을 기반으로 예측을 수행합니다. 이때의 train set은 기존의 train set과 valid set이 합쳐진 데이터 셋입니다.
+```
+# 모델 학습
+lgbm_model.fit(X_train, y_train)
+# 테스트 세트에 대한 예측
+y_pred = lgbm_model.predict(X_test)
+```
+
+모델의 성능을 확인하기 위해 혼동 행렬을 확인합니다.
+```
+print('\nClassification Report:')
+print(classification_report(y_test, y_pred))
+```
+![image](https://github.com/user-attachments/assets/3ce8fd03-250b-4c57-8e9d-c3a4774910ed)
+모델의 정확도는 0.81로 준수하지만, 이는 음성(0)에 대한 데이터 수가 양성(1)보다 많기 때문에 클래스 0에 대해 높은 성능을 보이지만, 클래스 1에 대해 상대적으로 낮은 성능을 보입니다.
+이렇게 불균형한 데이터에서는 정확도만으로 모델 성능을 평가하기 어렵습니다. 특히, 클래스가 불균형할 경우 다수 클래스(여기서는 클래스 0)에 대한 높은 정확도가 반영되기 때문입니다.
+실제로 클래스 0에 대한 recall 0.9는 실제 클래스 0 샘플을 모델이 거의 정확히 예측했음을, precision 0.84는 모델이 클래스 0으로 예측한 것 중 상당수가 정확했음을 확인할 수 있습니다.
+반면, 클래스 1에 대한 recall은 0.62, precision은 0.75로 실제 클래스 1 중 약 38%를 놓쳤으며 클래스 1로 예측한 것 중 25%가 잘못된 예측임을 확인할 수 있습니다. 이러한 결과는 불균형 데이터의 전형적인 문제입니다.
+
 참고로 Pycaret을 이용하면 양성 또는 음성 예측에 어떤 변수들이 영향을 미쳤는지 확인할 수 있습니다.
 ```
 interpret_model(tuned_model, plot='summary')
