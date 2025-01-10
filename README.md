@@ -32,3 +32,8 @@ TensorFlow
 
 # 코드 실행
 ## 1. Data preprocessing
+아래 Jupyter Notebook markdown으로 기술되어 있음
+https://github.com/HyunJae0/imbalanced-data-binary-classification/blob/main/preprocessing.ipynb
+
+### 1.1 데이터 설명
+사용한 데이터는 통계청 MDIS(Microdata Integrated Service)에서 제공받은 '2020년 주거실태조사' 데이터입니다.
