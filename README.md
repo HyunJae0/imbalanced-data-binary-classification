@@ -78,6 +78,15 @@ comp
 ```
 ![image](https://github.com/user-attachments/assets/d218fc15-b2d7-4343-b760-681a38e46d58)
 
+## 2. ML/DL 모델 생성
+서로 다른 패러다임을 가지는 머신러닝 모델과 딥러닝 모델을 만들어 예측을 수행하고자 합니다. 
+
+머신러닝 모델은 
+### 2.1 PyCaret
+
+### 2.2 TensorFlow
+
+
 
 
 
