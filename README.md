@@ -30,4 +30,5 @@ Keras
 TensorFlow  
 ```
 
-## 코드 실행
+# 코드 실행
+## 1. Data preprocessing
