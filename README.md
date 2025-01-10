@@ -1,1 +1,1 @@
-# imbalanced-data-binary-classification
+# Imbalanced-data-Binary-Classification
