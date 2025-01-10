@@ -208,7 +208,24 @@ print(classification_report(y_test, y_pred))
 이 문제는 공공임대주택 입주의향이기 때문에 실제로 입주의향이 있는 사람을 올바르게 예측하는 것이 더 중요합니다.
 
 ## 3. ROC Curve를 이용한 최적의 임곗값(optimal threshold) 찾기
+Python에서 sklearn.metrics의 roc_curve를 이용하면, ROC 곡선을 계산해서 FPR, TPR 그리고 임곗값(모델 예측 확률의 임곗값)을 반환할 수 있습니다. 이때 drop_intermediate 파라미터를 False로 지정하여 모든 가능한 임곗값을 구합니다.
+```
+fpr, tpr, thresholds = roc_curve(y_train,lgbm_model.predict_proba(X_train)[:,1],drop_intermediate=False)
+```
 
+그다음, '|TPR + FPR - 1|'값이 0이 되는 지점을 찾습니다. 이 지점이 바로 TPR = TNR인 '균형 지점'입니다.
+```
+i = np.arange(len(tpr))
+roc = pd.DataFrame({'fpr' : pd.Series(fpr, index=i),'tpr' : pd.Series(tpr, index = i), '1-fpr' : pd.Series(1-fpr, index = i), 'tf' : pd.Series(tpr - (1-fpr), index = i), 'thresholds' : pd.Series(thresholds, index = i)})
+roc.iloc[(roc.tf-0).abs().argsort()[:1]]
+```
+![image](https://github.com/user-attachments/assets/083c7fb9-9bc3-4445-930d-66f2c89635ea)
 
+파란색 곡선은 TPR, 빨간색 곡선은 TNR입니다. 두 곡선이 교차하는 지점이 바로 TPR과 TNR이 같아지는 임곗값 0.325006을 의미합니다.
 
-
+```
+plt.scatter(thresholds, np.abs(fpr+tpr-1))
+plt.xlabel("Threshold")
+plt.ylabel("|FPR + TPR - 1|")
+plt.show()
+```
