@@ -42,4 +42,8 @@ https://github.com/HyunJae0/imbalanced-data-binary-classification/blob/main/prep
 
 <img src="./img/data_class.png" width="50%">
 
+### 1.2 RobustScaler와 One-Hot Encoding
+예측에 사용한 독립 변수와 종속 변수는 다음과 같습니다.
+![image](https://github.com/user-attachments/assets/21897e83-f54f-44f0-be84-a2ea53d75a38)
+독립 변수 중 수치형 변수의 경우 나이부터 가구원수 그리고 소득, 자산까지 수치 값의 차이가 크기 때문에 예측 과정에서 소득이나 자산을 이상치로 간주할 수 있습니다. 이 점을 고려하여 RobustScaler를 적용해 모든 변수들이 같은 스케일을 가지도록 하였습니다.
 
