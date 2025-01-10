@@ -1,6 +1,4 @@
 ## 개인 프로젝트
-보고서 링크: https://github.com/HyunJae0/imbalanced-data-binary-classification/blob/main/%EB%B3%B4%EA%B3%A0%EC%84%9C%20%EB%B0%8F%20%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C/%EB%B3%B4%EA%B3%A0%EC%84%9C.pdf
-
 클래스(class)가 다소 불균형한 이진 분류 문제를 해결하기 위해 다음과 같은 식을 이용하여 최적의 임곗값(threshold)를 찾은 다음, 이 임곗값을 적용해 예측(분류)을 수행했습니다.
 
 <img src="./img/optimal_threshold.JPG" width="50%" height="50%">
@@ -286,3 +284,5 @@ print(classification_report(y_test, y_pred))
 <img src="./img/confusion_matrix2.png" width="50%">
 
 두 번째 혼동 행렬과 세 번째 혼동 행렬을 비교해 보면, 실제로 입주의향이 없는 사람을 모델이 입주의향이 있는 사람이라고 잘못 예측한 수가 증가하긴 했지만, 실제로 입주의향이 있는 사람을 입주의향이 없는 사람이라고 잘못 예측한 수가 줄어들고, 실제 입주의향이 있는 사람을 입주의향이 있는 사람이라고 올바르게 예측한 수가 증가한 것을 확인할 수 있습니다.
+
+보고서 링크: https://github.com/HyunJae0/imbalanced-data-binary-classification/blob/main/%EB%B3%B4%EA%B3%A0%EC%84%9C%20%EB%B0%8F%20%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C/%EB%B3%B4%EA%B3%A0%EC%84%9C.pdf
