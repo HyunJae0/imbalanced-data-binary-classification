@@ -40,6 +40,6 @@ https://github.com/HyunJae0/imbalanced-data-binary-classification/blob/main/prep
 
 종속 변수의 클래스는 다음과 같이 다소 불균형한 비율을 가지고 있습니다.
 
-<img src="./img/data_class.PNG" width="50%" height="50%">
+<img src="./img/data_class.png" width="50%">
 
 
