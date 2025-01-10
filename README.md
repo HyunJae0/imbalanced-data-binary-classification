@@ -130,7 +130,7 @@ tuned_model
 ```
 interpret_model(tuned_model, plot='summary')
 ```
-
+<img src="./img/shap_plot.png" width="50%">
 
 ### 2.2 TensorFlow
 
