@@ -37,7 +37,7 @@ TensorFlow
 
 # 코드 실행
 ## 1. Data preprocessing
-아래 Jupyter Notebook markdown으로 기술되어 있음
+아래 Jupyter Notebook으로 기술되어 있음
 https://github.com/HyunJae0/imbalanced-data-binary-classification/blob/main/preprocessing.ipynb
 
 ### 1.1 데이터 설명 및 변수 선정
@@ -86,7 +86,7 @@ comp
 ![image](https://github.com/user-attachments/assets/d218fc15-b2d7-4343-b760-681a38e46d58)
 
 ## 2. ML/DL 모델 생성
-아래 Jupyter Notebook markdown으로 기술되어 있음
+아래 Jupyter Notebook으로 기술되어 있음
 [https://github.com/HyunJae0/imbalanced-data-binary-classification/blob/main/preprocessing.ipynb
 ](https://github.com/HyunJae0/imbalanced-data-binary-classification/blob/main/classification.ipynb)
 
