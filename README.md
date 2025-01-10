@@ -79,6 +79,10 @@ comp
 ![image](https://github.com/user-attachments/assets/d218fc15-b2d7-4343-b760-681a38e46d58)
 
 ## 2. ML/DL 모델 생성
+아래 Jupyter Notebook markdown으로 기술되어 있음
+[https://github.com/HyunJae0/imbalanced-data-binary-classification/blob/main/preprocessing.ipynb
+](https://github.com/HyunJae0/imbalanced-data-binary-classification/blob/main/classification.ipynb)
+
 서로 다른 패러다임을 가지는 머신러닝 모델과 딥러닝 모델을 만들어 예측을 수행하고자 합니다. 
 
 두 모델은 모델 구조와 학습 방식이 근본적으로 다릅니다. 예를 들어 두 모델 모두 학습 과정에 영향을 주는 여러 하이퍼파라미터가 존재하지만, 설정해야 하는 하이퍼파라미터의 의미와 종류가 크게 다릅니다.
