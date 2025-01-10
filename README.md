@@ -35,5 +35,10 @@ TensorFlow
 아래 Jupyter Notebook markdown으로 기술되어 있음
 https://github.com/HyunJae0/imbalanced-data-binary-classification/blob/main/preprocessing.ipynb
 
-### 1.1 데이터 설명
-사용한 데이터는 통계청 MDIS(Microdata Integrated Service)에서 제공받은 '2020년 주거실태조사' 데이터입니다.
+### 1.1 데이터 설명 및 변수 선정
+사용한 데이터는 통계청 MDIS(Microdata Integrated Service)에서 제공받은 '2020년 주거실태조사' 데이터입니다. 해당 데이터는 설문 조사 응답자 46,976명에 대한 인구통계학적 정보와 주택과 관련된 정보입니다.
+
+예측에 사용한 종속 변수는 '공공임대주택 입주의향(0, 1)'이며, 독립 변수는 관련 연구인 '공공임대주택 입주의향 영향요인에 관한 연구'에서 사용한 변수를 사용했습니다. 해당 연구는 이항 로짓 회귀분석을 이용해 어떤 요인이 공공임대주택 입주의향에 영향을 미치는지 분석을 진행하였습니다.
+
+
+
