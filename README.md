@@ -156,6 +156,16 @@ interpret_model(tuned_model, plot='summary')
 <img src="./img/shap_plot.png" width="50%">
 
 ### 2.2 TensorFlow
+Sequential API를 이용해 모델을 만들었으며, LearningRateScheduler을 이용해 초반에는 큰 step size로 빠르게 학습하고 epoch 5부터는 학습률을 지수적으로 줄여 좀 더 세밀하게 학습을 진행했습니다.
+그리고 best model을 선정하기 위해 EarlyStopping으로 val_accuracy(검증 정확도)가 10 epoch 이후에도 개선되지 않으면 학습을 중단했으며, ModelCheckpoint를 이용해 val_loss(검증 손실)가 가장 낮았던 모델만 저장했습니다.
+그리고 ReLU 활성화 함수를 사용하기 때문에 가중치를 He Normal로 설정했습니다.
+
+모델의 Input은 데이터의 특징 수로 지정하였으며, 층이 깊어질수록 노드(뉴런)의 수를 줄여 정보를 압축했습니다. 
+
+모델 구조는 Dense(Affine 계층) → BatchNormalization(배치 정규화 계층) → ReLU(활성화 함수 계층) → Dropout(드롭아웃 계층) 패턴으로 모델의 층을 쌓았습니다. ReLU 함수는 데이터의 값이 0 미만이면 0, 0 이상이면 그 값을 그대로 출력하기 때문에 은닉층을 쌓았을 때 0이 계속 전달될 수 있습니다. 이를 방지하고자 ReLU 계층 전에 배치 정규화 계층을 넣었습니다. 그리고 과적합을 억제하고, ML의 앙상블 효과를 얻기 위해 드롭아웃 계층을 넣었습니다. 마지막 계층은 이진 분류 문제이기 때문에 시그모이드 함수를 사용했습니다. 출력 뉴런이 1개이기 때문에 0~1 사이의 값을 얻으며, 결과는 확률로 해석할 수 있습니다. 결과가 1에 가까우면 입주의향 'yes'의 확률이 높은 것, 0에 가까우면 입주의향 'yes'의 확률이 낮은 것으로 해석할 수 있습니다.
+
+모델 성능 지표는 정확도를 사용했으며, 손실 함수는 이진 분류에서 사용하는 손실 함수 binary_crossentropy를 사용했습니다. 그리고 옵티마이저로는 Adam을 사용했습니다.
+
 
 
 
