@@ -45,5 +45,39 @@ https://github.com/HyunJae0/imbalanced-data-binary-classification/blob/main/prep
 ### 1.2 RobustScaler와 One-Hot Encoding
 예측에 사용한 독립 변수와 종속 변수는 다음과 같습니다.
 ![image](https://github.com/user-attachments/assets/21897e83-f54f-44f0-be84-a2ea53d75a38)
-독립 변수 중 수치형 변수의 경우 나이부터 가구원수 그리고 소득, 자산까지 수치 값의 차이가 크기 때문에 예측 과정에서 소득이나 자산을 이상치로 간주할 수 있습니다. 이 점을 고려하여 RobustScaler를 적용해 모든 변수들이 같은 스케일을 가지도록 하였습니다.
+
+독립 변수 중 수치형 변수의 경우 나이부터 가구원수 그리고 소득, 자산까지 수치 값의 차이가 크기 때문에 예측 과정에서 소득이나 자산을 이상치로 간주할 수 있습니다. 이 점을 고려하여 RobustScaler(X-median/IQR(Q3-Q1))를 적용해 모든 수치형 변수들이 같은 스케일을 가지도록 하였습니다.
+그리고 범주형 변수에는 원-핫 인코딩을 적용했습니다.
+```
+# 숫자형 변수
+num = new_df.select_dtypes(include=['int64', 'float64'])
+# 범주형 변수
+cat = new_df.select_dtypes(include=['object', 'category'])
+num = num.drop('Intention to move into public rental housing', axis = 1) # 수치형 변수 중 종속변수 제외 
+## 종속 변수를 별도로 보관
+a=new_df[['Intention to move into public rental housing']]
+```
+
+스케일링과 인코딩이 적용된 데이터 프레임을 합칩니다.
+```
+from sklearn.preprocessing import RobustScaler
+
+scaler = RobustScaler()
+scaler.fit(num)
+num_scaled=scaler.transform(num)
+num_df_scaled=pd.DataFrame(data=num_scaled, columns=num.columns)
+cat_dummies=pd.get_dummies(cat).astype(np.float32)
+
+## 데이터 합치기
+comp=pd.concat([num_df_scaled,cat_dummies,a],axis=1)
+```
+
+예측에 사용될 최종 데이터 프레임은 다음과 같으며, 종속 변수를 포함해 총 127개의 feature를 가집니다.
+```
+comp
+```
+![image](https://github.com/user-attachments/assets/d218fc15-b2d7-4343-b760-681a38e46d58)
+
+
+
 
