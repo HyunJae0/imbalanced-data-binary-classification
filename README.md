@@ -166,7 +166,41 @@ Sequential API를 이용해 모델을 만들었으며, LearningRateScheduler을 
 
 모델 성능 지표는 정확도를 사용했으며, 손실 함수는 이진 분류에서 사용하는 손실 함수 binary_crossentropy를 사용했습니다. 그리고 옵티마이저로는 Adam을 사용했습니다.
 
+train/valid set에 대한 학습 결과는 다음과 같습니다.
+```
+hist=model.fit(X_train, y_train, validation_data=(X_valid, y_valid), epochs=100, callbacks=callbacks_list)
+```
+<img src="./img/result.png" width="50%">
+train set과 valid set에 대한 정확도는 약 80~81%의 성능을 보이며, 각 data set의 loss를 확인하면 과대/과소 적합이 발생하지 않고, 잘 학습된 것을 확인할 수 있습니다.
 
+best model을 저장하고 다시 불러옵니다.
+```
+#model.save('best_model.keras')
+model2 = keras.models.load_model('best_model.keras')
+```
+
+이제 unseen data인 test data에 대한 정확도를 확인합니다.
+```
+score=model2.evaluate(X_test,y_test)
+print('%s: %.2f%%' %(model2.metrics_names[1],score[1]*100))
+```
+![image](https://github.com/user-attachments/assets/348845fc-fae1-435d-9e6f-88c5fff036fe)
+test data에 대해서도 약 81%의 정확도를 보입니다.
+
+위의 LGBM의 임곗값은 default로 설정된 0.5입니다. 딥러닝 모델도 임곗값을 0.5로 설정해서 혼동 행렬을 확인하였습니다.
+```
+y_pred = model2.predict(X_test)
+y_pred = np.where(y_pred > 0.5, 1, 0)  # 0.5를 기준으로 이진 분류
+
+print(classification_report(y_test, y_pred))
+```
+![image](https://github.com/user-attachments/assets/7f8405dd-9562-44a6-8955-cf82f005db71)
+위의 LGBM 모델과 사실상 동일한 결과가 나오는 것을 확인할 수 있습니다. 
+
+두 모델 모두 하이퍼파라미터 설정 방법만 다를 뿐, 일련의 튜닝을 적용한 모델들입니다. 그리드 서치를 사용하거나 사전 학습된 모델을 사용하는 방법으로, 두 모델 모두 약간의 성능 개선은 기대할 수 있지만, 임곗값을 0.5로 사용할 경우 클래스 1의 recall 값은 크게 달라지지 않을 것입니다.
+이 문제는 공공임대주택 입주의향이기 때문에 실제로 입주의향이 있는 사람을 올바르게 예측하는 것이 더 중요합니다.
+
+## 3. ROC Curve를 이용한 최적의 임곗값(optimal threshold) 찾기
 
 
 
