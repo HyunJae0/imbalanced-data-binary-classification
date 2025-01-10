@@ -275,7 +275,7 @@ print(classification_report(y_test, y_pred))
 ![image](https://github.com/user-attachments/assets/4e341d6e-46d2-4405-80e4-1a5bf5b7778f)
 혼동 행렬을 확인하면 기본 임곗값 0.5를 적용했을 때에 비해 클래스 1에 대한 recall 값이 0.16 증가한 것을 확인할 수 있습니다. 하지만, 클래스 1과 클래스 0을 분류하는 균형 지점을 찾았기 때문에 클래스 0에 대한 recall 값이 0.1 감소했습니다. 그러나 실제로 입주의향이 있는 사람을 올바르게 예측하는 것이 더 중요하게 가정하였기 때문에 다소 성공적인 결과입니다.
 
-## 4. 결과
+## 결과
 첫 번째와 두 번째 혼동 행렬은 딥러닝 모델과 LGBM 모델로 임곗값 0.5를 사용했을 때의 결과입니다.
 <img src="./img/confusion_matrix0.png" width="50%">
 <img src="./img/confusion_matrix1.png" width="50%">
