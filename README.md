@@ -102,3 +102,15 @@ Default 대비 FP 증가가 확인되며, 이는 전형적인 recall-precision t
 max BA는 세 방법 중 절충안이 될 수 있다. recall(1)=0.75로 $\min \|TPR−TNR\|$ 대비 소폭 감소하였지만, precision(1): 0.62 → 0.64 및 Recall(0): 0.78 → 0.80로 조금 개선된 것을 볼 수 있다. 또한 Default 대비 recall(1)이 0.12 높다. 
 
 종합하면, FN 최소화/recall이 최우선으로 하는 경우에는 $\min \|TPR−TNR\|$가 가장 적합하며, FP도 더 억제하고 싶으면 max BA가 실용적인 선택이 될 수 있다. 
+
+추가로 딥러닝이 추가 성능 이득을 제공하는지를 확인하기 위해, 동일한 dataset으로 MLP를 학습시켰다. 아래 표는 동일한 방법으로 선택한 임곗값을  test set에 적용한 결과이다. 
+
+| Metrics | Default (t=0.5) | min \|TPR−TNR\| | max Balanced Accuracy |
+|---|---|---|---|
+| Accuracy | 0.80 | 0.78 | 0.78 |
+| Precision(0) | 0.83 | 0.88 | 0.88 |
+| Precision(1) | 0.72 | 0.62 | 0.63 |
+| Recall(0)=TNR | 0.88 | 0.77 | 0.79 |
+| Recall(1)=TPR | 0.63 | 0.78 | 0.77 |
+
+MLP에서도 비슷한 결과를 확인할 수 있다. 
