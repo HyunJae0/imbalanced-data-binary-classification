@@ -97,7 +97,7 @@ $TNR(Specificity)=\dfrac{TN}{TN+FP}$(True Negative Rate)로 실제 음성인 것
   <img src="img/ml_max.png" alt="Max" width="32%">
 </div>
 
-Default 대비 FP 증가가 확인되며, 이는 전형적인 recall-precision trade-off에 해당한다. 그러므로 trade-off를 감수할 수 있는지는 정책/비용 관점에서 판단되어야 할 것이다. -> 문장 다듬기 마지막 부분 
+Default 대비 FP 증가가 확인되며, 이는 전형적인 recall-precision trade-off에 해당한다. 이러한 trade-off를 감수할 수 있는지는 정책 및 비용 측면을 고려해 결정되어야 할 것이다. 
 
 max BA는 세 방법 중 절충안이 될 수 있다. recall(1)=0.75로 $\min \|TPR−TNR\|$ 대비 소폭 감소하였지만, precision(1): 0.62 → 0.64 및 Recall(0): 0.78 → 0.80로 조금 개선된 것을 볼 수 있다. 또한 Default 대비 recall(1)이 0.12 높다. 
 
