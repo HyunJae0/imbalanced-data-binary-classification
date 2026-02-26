@@ -1,6 +1,6 @@
 ## 1. Problem
 
-binary classifier가 확률 $ \hat{p}(x) = P(y=1 \mid x) $를 출력했을 때, 최종 예측 레이블은 threshold $t$로 결정된다: $ \hat{y}(t) = \mathbf{1}[\hat{p}(x) \ge t] $, 여기서 $\mathbf{1}$은 indicator function
+binary classifier가 확률 $\hat{p}(x) = P(y=1 \mid x)$를 출력했을 때, 최종 예측 레이블은 threshold $t$로 결정된다: $\hat{y}(t) = \mathbf{1}[\hat{p}(x) \ge t]$, 여기서 $\mathbf{1}$은 indicator function
 
 많은 확률 기반의 classifier에서 $ t= 0.5 $를 기본값으로 사용한다. 즉, 양성(positive) 확률이 0.5를 초과하면, 이를 양성으로 분류한다.
 
