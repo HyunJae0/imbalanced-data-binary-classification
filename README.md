@@ -74,3 +74,17 @@ $TNR(Specificity)=\dfrac{TN}{TN+FP}$(True Negative Rate)로 실제 음성인 것
 ---
 
 ## 4. Results
+
+아래 표는 train set에서 학습한 모델로 valid set에서 각각  $t^*$를 찾은 뒤, 이를 test set에 적용한 결과이다. 
+
+| Metrics | Default (t=0.5) | min \|TPR−TNR\| | max Balanced Accuracy (BA) |
+|---|---|---|---|
+| Accuracy | 0.80 | 0.78 | 0.78 |
+| Precision(0) | 0.83 | 0.88 | 0.87 |
+| Precision(1) | 0.71 | 0.62 | 0.64 |
+| Recall(0)=TNR | 0.88 | 0.78 | 0.80 |
+| Recall(1)=TPR | 0.63 | 0.78 | 0.75 |
+
+소수 클래스(1)을 놓치면 오류(즉, FN)를 최소화하는 것이 중요하다면, 세 방법 중 recall(1)=0.78로 가장 높은  $\min \|TPR−TNR\|$가 가장 목적에 부합하다. recall(0)도 0.78로 두 클래스의 recall이 균형에 가깝게 맞춰졌다. 
+
+다만, $\min \|TPR−TNR\|$는 precision(1)이 0.62로 감소하였다. 이는 임곗값을 낮추는 과정에서 FP가 증가했기 때문이다. 
