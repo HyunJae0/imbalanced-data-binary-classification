@@ -63,7 +63,7 @@ $TNR(Specificity)=\dfrac{TN}{TN+FP}$(True Negative Rate)로 실제 음성인 것
 
 이는 동일하게 $TPR$과 $TNR$을 사용하는 Balanced Accuracy를 이용해 $t^*$를 찾는 것과 목표가 다르다.
 
-구체적으로, Balanced Accuracy를 통해 최적의 $t$를 찾기 위해서는 $t^* = \arg \max_{t} \dfrac{TPR(t) + TNR(t)}{2}$를 찾아야 한다. 즉, $TPR$과 $TNR$의 합이 최대가 되게 하는 $t$를 찾아야 한다.
+구체적으로, 첫 번째 방법은 두 클래스의 recall이 서로 비슷해지는(즉, $TPR \approx TNR$) 임곗값을 찾는 것이지만, Balanced Accuracy 기반 방법은 $t^* = \arg \max_{t} \dfrac{TPR(t) + TNR(t)}{2}$로, 두 클래스 recall의 평균이 최대가 되도록, 즉 $TPR$과 $TNR$의 합이 최대가 되게 하는 $t$를 찾는 것이다.
 
 아래 그림은 train set에서 학습시킨 모델을 사용하여 valid set에서 두 방법으로 $t^*$를 찾은 결과이다.
 <div align="center">
