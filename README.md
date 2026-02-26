@@ -47,3 +47,24 @@ $\dfrac{N_1}{N} = 0.01$이면 99%의  accuracy가 산출된다. 그러나 이 �
 - 범주형 변수의 경우 <b>One-Hot Encoding</b>으로 처리
 
 ---
+
+## 3. Data-based threshold optimization
+
+클래스 불균형을 완화하는 또 다른 방법은 $TPR$과 $TNR$의 차를 최소화하는 최적의 임곗값 $t^*$를 사용하여 분류를 수행하는 것이다.
+$$t^* = \arg \min_{t} |TPR(t) - TNR(t)|$$
+
+$TPR(Recall) = \dfrac{TP}{TP+FN}$(True Positive Rate)은, 실제 양성(Positive)인 것들 중에서 모델이 양성이라고 올바르게 예측한 비율을 나타내는 값이다.
+
+$FPR=\dfrac{FP}{FP+TN}$은, 실제 음성(Negative)인 것들 중에서 모델이 양성이라고 잘못 예측한 비율을 나타내는 값이다.
+
+$TNR(Specificity)=\dfrac{TN}{TN+FP}$(True Negative Rate)로 실제 음성인 것들 중에서 모델이 음성이라고 올바르게 예측한 비율을 나타내는 값이다. 즉, 음성 클래스에 대한 recall이며, $TNR$은 $TNR=1-FPR$로 나타낼 수 있다.
+
+이러한 $TPR$과 $TNR$의 차를 최소화하는 $t$를 찾는다는 것은, 두 지표가 최대한 비슷해지도록 만드는, 모델의 출력 확률에 적용할 분류 기준을 찾는 것이다.
+
+이는 동일하게 $TPR$과 $TNR$을 사용하는 Balanced Accuracy를 이용해 $t^*$를 찾는 것과 목표가 다르다.
+
+구체적으로, Balanced Accuracy를 통해 최적의 $t$를 찾기 위해서는 t^* = \arg \max_{t} \dfrac{TPR(t) + TNR(t)}{2}$를 찾아야 한다. 즉, $TPR$과 $TNR$의 합이 최대가 되게 하는 $t$를 찾아야 한다.
+
+아래 그림은 train set에서 학습시킨 모델을 사용하여 valid set에서 두 방법으로 $t^*$를 찾은 결과이며, 서로 근접한 값을 보임을 확인할 수 있다.
+
+---
