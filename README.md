@@ -88,3 +88,16 @@ $TNR(Specificity)=\dfrac{TN}{TN+FP}$(True Negative Rate)로 실제 음성인 것
 소수 클래스(1)을 놓치면 오류(즉, FN)를 최소화하는 것이 중요하다면, 세 방법 중 recall(1)=0.78로 가장 높은  $\min \|TPR−TNR\|$가 가장 목적에 부합하다. recall(0)도 0.78로 두 클래스의 recall이 균형에 가깝게 맞춰졌다. 
 
 다만, $\min \|TPR−TNR\|$는 precision(1)이 0.62로 감소하였다. 이는 임곗값을 낮추는 과정에서 FP가 증가했기 때문이다. 
+
+아래 그림은 순서대로 Default (t=0.5), $\min \|TPR−TNR\|$, max BA에 대한 Confusion Matrix이다.
+<div align="center">
+  <img src="img/ml_base.png" alt="Base" width="32%">
+  <img src="img/ml_min.png" alt="Min" width="32%">
+  <img src="img/ml_max.png" alt="Max" width="32%">
+</div>
+
+Default 대비 FP 증가가 확인되며, 이는 전형적인 recall-precision trade-off에 해당한다. 그러므로 trade-off를 감수할 수 있는지는 정책/비용 관점에서 판단되어야 할 것이다. -> 문장 다듬기 마지막 부분 
+
+max BA는 세 방법 중 절충안이 될 수 있다. recall(1)=0.75로 $\min \|TPR−TNR\|$ 대비 소폭 감소하였지만, precision(1): 0.62 → 0.64 및 Recall(0): 0.78 → 0.80로 조금 개선된 것을 볼 수 있다. 또한 Default 대비 recall(1)이 0.12 높다. 
+
+종합하면, FN 최소화/recall이 최우선으로 하는 경우에는 $\min \|TPR−TNR\|$가 가장 적합하며, FP도 더 억제하고 싶으면 max BA가 실용적인 선택이 될 수 있다. 
