@@ -71,5 +71,6 @@ $TNR(Specificity)=\dfrac{TN}{TN+FP}$(True Negative Rate)로 실제 음성인 것
   <img src="img/ba.png" alt="출력 결과" width="48%">
 </div>
 
-
 ---
+
+## 4. Results
