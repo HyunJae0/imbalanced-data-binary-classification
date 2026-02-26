@@ -51,6 +51,7 @@ $\dfrac{N_1}{N} = 0.01$이면 99%의  accuracy가 산출된다. 그러나 이 �
 ## 3. Data-based threshold optimization
 
 클래스 불균형을 완화하는 또 다른 방법은 $TPR$과 $TNR$의 차를 최소화하는 최적의 임곗값 $t^*$를 사용하여 분류를 수행하는 것이다.
+
 $$t^* = \arg \min_{t} |TPR(t) - TNR(t)|$$
 
 $TPR(Recall) = \dfrac{TP}{TP+FN}$(True Positive Rate)은, 실제 양성(Positive)인 것들 중에서 모델이 양성이라고 올바르게 예측한 비율을 나타내는 값이다.
